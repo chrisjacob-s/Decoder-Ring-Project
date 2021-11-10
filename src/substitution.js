@@ -4,11 +4,59 @@
 // of the anonymous function on line 6
 
 const substitutionModule = (function () {
-  // you can add any code you want within this function scope
+  const letterAlphabet = [
+    'a', 'b', 'c', 'd', 'e', 'f',
+    'g', 'h', 'i', 'j', 'k', 'l',
+    'm', 'n', 'o', 'p', 'q', 'r',
+    's', 't', 'u', 'v', 'w', 'x',
+    'y', 'z'
+  ];
 
+  // Helper function
+  // Finds any duplicate characters
+  function duplicateCharacters(string) {
+    // Splits string into separate characters
+    let characterArray = string.split('');
+    // Puts duplicate characters in array
+    return characterArray.filter((character, index, self) => self.indexOf(character) !== index);
+  }
+  
   function substitution(input, alphabet, encode = true) {
-    // your solution code here
-    if (!alphabet || alphabet != 26) return false;
+    if(!alphabet || alphabet.length !== 26) return false;
+    // If array exceeds 0 return false
+    if(duplicateCharacters(alphabet).length > 0) return false;
+    
+    // Ignores capitals
+    const codeAlphabet = alphabet.toLowerCase().split(''); 
+    const inputArray = input.toLowerCase().split(''); 
+  
+    // Encode
+    if (encode) {
+      let encode = '';
+      inputArray.forEach(letter => {
+        // Maintains spaces
+        if (letter === ' ') return encode += letter; 
+        let code = letterAlphabet.indexOf(letter);
+
+        encode += codeAlphabet[code];
+      });
+
+      return encode;
+    }
+    
+    // Decode
+    if (encode === false) {
+      let decode = '';
+      inputArray.forEach(letter => {
+        // Maintains spaces
+        if (letter === ' ') return decode += letter;
+        let code = codeAlphabet.indexOf(letter);
+
+        decode += letterAlphabet[code];
+      });
+
+      return decode;
+    }
   }
 
   return {
